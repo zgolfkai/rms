@@ -1,0 +1,94 @@
+<br/>
+<fieldset>
+    <legend>Registration Details</legend>
+    <label>
+        <select class="inputText" id="typeRegistration" placeholder=" ">
+            <option></option>
+            <option value="Baptism">Baptism</option>
+            <option value="Confirmation">Confirmation</option>
+        </select>
+        <span class="floating-label">Type</span>
+    </label>
+    <label>
+        <input class="inputText" type="text" id="dateRegistration">
+        <span class="floating-label">Date</span>
+    </label>
+</fieldset>
+<fieldset>
+    <legend>Registrant</legend>
+    <label>
+        <input type="text" class="inputText" id="regFirstName" placeholder=" "/>
+        <span class="floating-label">First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="regLastName" placeholder=" "/>
+        <span class="floating-label">Last Name</span>
+    </label>
+    <label>
+        <input class="inputText" type="text" id="dateBirthday">
+        <span class="floating-label">Birthday</span>
+    </label>
+</fieldset>
+<fieldset>
+    <legend>Parents</legend>
+    <label>
+        <input type="text" class="inputText" id="fatherFirstName" placeholder=" "/>
+        <span class="floating-label">Father's First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="fatherLastName" placeholder=" "/>
+        <span class="floating-label">Father's Last Name</span>
+    </label>
+    <br>
+    <label>
+        <input type="text" class="inputText" id="motherFirstName" placeholder=" "/>
+        <span class="floating-label">Mother's First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="motherLastName" placeholder=" "/>
+        <span class="floating-label">Mother's Last Name</span>
+    </label>
+</fieldset>
+<fieldset>
+    <legend>Sponsors</legend>
+    <label>
+        <input type="text" class="inputText" id="sponsor1FirstName" placeholder=" "/>
+        <span class="floating-label">Godfather First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="sponsor1LastName" placeholder=" "/>
+        <span class="floating-label">Godfather Last Name</span>
+    </label>
+    <br>
+    <label>
+        <input type="text" class="inputText" id="sponsor2FirstName" placeholder=" "/>
+        <span class="floating-label">Godmother First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="sponsor2LastName" placeholder=" "/>
+        <span class="floating-label">Godmother Last Name</span>
+    </label>
+</fieldset>
+<fieldset>
+    <legend>Minister</legend>
+    <label>
+        <select class="inputText" id="officiantTitle" placeholder=" ">
+            <option></option>
+            <option value="Fr.">Fr.</option>
+            <option value="Msgr.">Msgr.</option>
+        </select>
+        <span class="floating-label">Title</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="officiantFirstName" placeholder=" "/>
+        <span class="floating-label">Officiant's First Name</span>
+    </label>
+    <label>
+        <input type="text" class="inputText" id="officiantLastName" placeholder=" "/>
+        <span class="floating-label">Officiant's Last Name</span>
+    </label>
+</fieldset>
+<div class="btnGroup">
+    <button onclick="resetInput()">Reset</button>
+    <button onclick="addRegistration()">Add</button>
+</div>

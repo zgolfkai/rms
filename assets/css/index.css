@@ -1,0 +1,109 @@
+body{
+    
+    margin:auto;
+}
+.container{
+    width:600px;
+    margin:auto;
+    text-align:center;
+}
+.menu{
+  width:100%;
+  background-color: cornflowerblue;
+}
+.results{
+  width:100%;
+  border:0px;
+  border-collapse: collapse;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.results>thead>tr>th{
+  padding-bottom:10px;
+}
+
+.results>tbody>tr>td{
+  padding: 5px 5px 5px 10px;
+  text-align: center;
+  border:0px;
+  border-collapse: collapse;
+}
+
+.results>tbody>tr:nth-child(odd){
+  background-color: rgb(211, 239, 240);
+  border:0px;
+  border-collapse: collapse;
+}
+
+.results tr th:nth-child(3),.results tr th:nth-child(4){
+  width:25%;
+  
+}
+.results tbody tr td:nth-child(1){
+  width:15%;
+  font-size: 0.8em;
+}
+fieldset{
+    width:600px;
+    margin-bottom:20px;
+}
+#searchRegistration{
+    width:300px;
+}
+button{
+    width:80px;
+    height:30px;
+    margin-left: 30px
+}
+
+.btnGroup{
+    position:relative;
+    text-align:center;
+ 
+}
+label {
+    margin:10px 0;
+    position:relative;
+    display:inline-block;
+  }
+    
+  span.floating-label {
+    margin:2px;
+    padding:8px;
+    pointer-events: none;
+    position:absolute;
+    left:0;
+    top:0;
+    transition: 0.2s;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    opacity:0.5;
+    background-color: white;
+  }
+  
+  #viewRegistration{
+    text-align: center;
+  }
+
+  input {
+    padding:10px;
+    text-align:center;
+  }
+  input:disabled{
+    background-color: white;
+  }
+  select,option{
+    padding:10px;
+    width: 125px;
+  }
+  
+  select:focus + span, select:not(:placeholder-shown) + span, input:focus + span, input:not(:placeholder-shown) + span {
+    opacity:1;
+    transform: scale(0.75) translateY(-70%) translateX(0px);
+  }
+  
+  /* For IE Browsers*/
+  select:focus + span, select:not(:-ms-input-placeholder) + span,   input:focus + span, input:not(:-ms-input-placeholder) + span {
+    opacity:1;
+    transform: scale(0.75) translateY(-100%) translateX(-30px);
+  }

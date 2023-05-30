@@ -1,0 +1,61 @@
+<br/>
+<fieldset>
+    <legend>Search</legend>
+    <label>
+        <input type="text" id="searchRegistration" oninput="markSearch()" onchange="markSearch()">
+        <span class="floating-label">Search</span>
+    </label>
+    <button onclick="searchRegistration()">Search</button>
+</fieldset>
+<fieldset>
+    <legend>Results</legend>
+    <table class="results">
+        <thead>
+            <tr>
+                <th></th><th>Name</th><th>Registration Date</th><th>Birthday</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</fieldset>
+
+<div id="viewRegistration" title="Registration Details" style="display:none">
+    <div>
+        
+        <label>
+            <input type="text" class="inputText" id="registrant" placeholder=" " disabled/>
+            <span class="floating-label">Registrant</span>
+        </label>
+        <br/>
+        <label>
+            <input type="text" class="inputText" id="birthday" placeholder=" " disabled/>
+            <span class="floating-label">Birthday</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="regDate" placeholder=" " disabled/>
+            <span class="floating-label">Registration Date</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="father" placeholder=" " disabled/>
+            <span class="floating-label">Father</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="mother" placeholder=" " disabled/>
+            <span class="floating-label">Mother</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="sponsor1" placeholder=" " disabled/>
+            <span class="floating-label">Godfather</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="sponsor2" placeholder=" " disabled/>
+            <span class="floating-label">Godmother</span>
+        </label>
+        <label>
+            <input type="text" class="inputText" id="officiant" placeholder=" " disabled/>
+            <span class="floating-label">Minister</span>
+        </label>
+    </div>
+</div>
