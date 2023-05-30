@@ -94,6 +94,12 @@ async function openRegistration(reference){
     $("#officiant").val(data.persons.officiant.firstName +" "+data.persons.officiant.lastName);
     
     
+    
+
+}
+
+function clickSearch(){
+    $(".container").load("search.html");
     $("#viewRegistration").dialog({
         autoOpen: false,
         show: {
@@ -110,11 +116,6 @@ async function openRegistration(reference){
         collision:"none"
     });
     $("#viewRegistration").dialog("open");
-
-}
-
-function clickSearch(){
-    $(".container").load("search.html");
     var availableTags=[];
     $.ajax({
         type:"GET",
