@@ -10,6 +10,8 @@ body{
 .menu{
   width:100%;
   background-color: cornflowerblue;
+  height: 31px;
+  vertical-align: middle;
 }
 .results{
   width:100%;
@@ -106,4 +108,22 @@ label {
   select:focus + span, select:not(:-ms-input-placeholder) + span,   input:focus + span, input:not(:-ms-input-placeholder) + span {
     opacity:1;
     transform: scale(0.75) translateY(-100%) translateX(-30px);
+  }
+
+  a:visited, a:link, a:active, a:hover{
+    color: black;
+    font-style:normal;
+    text-decoration-line: none;
+  }
+
+  .menu>a:visited, .menu>a:link, .menu>a:active, .menu>a:hover{
+    color: black;
+    font-style:normal;
+    text-decoration-line: none;
+    margin: 0;
+    margin-left:10px;
+    line-height: 31px;
+    background-color: coral;
+    padding: 5px 5px 5px 5px;
+    border:1px solid black;
   }

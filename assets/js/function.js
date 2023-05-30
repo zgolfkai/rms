@@ -110,7 +110,7 @@ function clickSearch(){
             },
             maxWidth:300,
             width:300,
-            position:{my: "right-120% top-65%", at: "menu"},
+            position:{my: "right-120% top-60%", at: "menu"},
             collision:"none"
         });
         $("#viewRegistration").dialog("open");
