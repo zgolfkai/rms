@@ -114,44 +114,45 @@ function clickSearch(){
             collision:"none"
         });
         $("#viewRegistration").dialog("open");
+        var availableTags=[];
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            contentType: "application/json",
+            url:"/registrations",
+        })
+        .then(function(response) {
+            dataRegistration=response.data
+            response.data.forEach(function(record){
+                $('.results>tbody').append("<tr><td><a href='#' onclick='openRegistration("+record.regIndex+")'>View</a> <a href='#' onclick='printRegistration("+record.regIndex+")'>Print</a></td><td>"+record.lastName+","+record.firstName+"</td>"+
+                "<td>"+record.month+"/"+record.day+"/"+record.year+"</td>"+
+                "<td>"+record.birthmonth+"/"+record.birthday+"/"+record.birthyear+"</td></tr>");
+                availableTags.push(record.lastName+","+record.firstName);
+                console.log(availableTags);
+            })
+            
+            $('#searchRegistration').quicksearch('.results tbody tr',{
+                'delay': 100,
+                'bind':'keyup keydown change input',
+                'onAfter': function(){
+                    var txtstring=$('#searchRegistration').val();
+                    $('#searchRegistration').val("");
+                    $('#searchRegistration').val(txtstring);
+                }
+            });
+            console.log(availableTags);
+            /*$("#searchRegistration").autocomplete({
+                source: availableTags,
+                select: function(event,ui){
+                    markSearch();
+                    $('#searchRegistration').val($('#searchRegistration').val());
+                }
+            });*/
+        }); 
     });
     
     
-    var availableTags=[];
-    $.ajax({
-        type:"GET",
-        dataType:"json",
-        contentType: "application/json",
-        url:"/registrations",
-    })
-    .then(function(response) {
-        dataRegistration=response.data
-        response.data.forEach(function(record){
-            $('.results>tbody').append("<tr><td><a href='#' onclick='openRegistration("+record.regIndex+")'>View</a> <a href='#' onclick='printRegistration("+record.regIndex+")'>Print</a></td><td>"+record.lastName+","+record.firstName+"</td>"+
-            "<td>"+record.month+"/"+record.day+"/"+record.year+"</td>"+
-            "<td>"+record.birthmonth+"/"+record.birthday+"/"+record.birthyear+"</td></tr>");
-            availableTags.push(record.lastName+","+record.firstName);
-            console.log(availableTags);
-        })
-        
-        $('#searchRegistration').quicksearch('.results tbody tr',{
-            'delay': 100,
-            'bind':'keyup keydown change input',
-            'onAfter': function(){
-                var txtstring=$('#searchRegistration').val();
-                $('#searchRegistration').val("");
-                $('#searchRegistration').val(txtstring);
-            }
-        });
-        console.log(availableTags);
-        /*$("#searchRegistration").autocomplete({
-            source: availableTags,
-            select: function(event,ui){
-                markSearch();
-                $('#searchRegistration').val($('#searchRegistration').val());
-            }
-        });*/
-    }); 
+    
 }
 
 function searchRegistration(){
