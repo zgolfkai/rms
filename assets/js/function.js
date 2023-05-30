@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
-    $(".container").load("search.html");
-    clickSearch();
+    clickSearch()
     var dataRegistration=[];
 });
 
@@ -20,7 +19,11 @@ function waitForElement(id, callback){
 }
 
 async function clickAdd(){
-    $("#viewRegistration").dialog("close");
+    try{
+        $("#viewRegistration").dialog("close");
+    }catch{
+
+    }
     $(".container").load("add.html")
     waitForElement("dateRegistration", function(){
         $("#dateRegistration").datepicker();
@@ -75,8 +78,6 @@ async function printRegistration(reference){
             printWindows.postMessage(data, '*');
         },1000)
     });
-    
-    
 }
 
 async function openRegistration(reference){
@@ -92,30 +93,30 @@ async function openRegistration(reference){
     $("#sponsor1").val(data.persons.godfather.firstName +" "+data.persons.godfather.lastName);
     $("#sponsor2").val(data.persons.godmother.firstName +" "+data.persons.godmother.lastName);
     $("#officiant").val(data.persons.officiant.firstName +" "+data.persons.officiant.lastName);
-    
-    
-    
-
 }
 
 function clickSearch(){
     $(".container").load("search.html");
-    $("#viewRegistration").dialog({
-        autoOpen: false,
-        show: {
-            effect: "blind",
-            duration: 1000
-        },
-        hide: {
-            effect: "explode",
-            duration: 1000
-        },
-        maxWidth:300,
-        width:300,
-        position:{my: "right-120% top-70%", at: "menu"},
-        collision:"none"
+    waitForElement("viewRegistration", function(){
+        $("#viewRegistration").dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 1000
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+            maxWidth:300,
+            width:300,
+            position:{my: "right-120% top-65%", at: "menu"},
+            collision:"none"
+        });
+        $("#viewRegistration").dialog("open");
     });
-    $("#viewRegistration").dialog("open");
+    
+    
     var availableTags=[];
     $.ajax({
         type:"GET",
@@ -152,8 +153,6 @@ function clickSearch(){
         });*/
     }); 
 }
-
-
 
 function searchRegistration(){
     $.ajax({
