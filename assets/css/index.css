@@ -111,7 +111,7 @@ label {
   }
 
   a:visited, a:link, a:active, a:hover{
-    color: black;
+    color: blue;
     font-style:normal;
     text-decoration-line: none;
   }
@@ -126,4 +126,14 @@ label {
     background-color: coral;
     padding: 5px 5px 5px 5px;
     border:1px solid black;
+  }
+
+  .ui-dialog{
+    position:absolute!important;
+    top:90px!important;
+    left:1px!important;
+  }
+
+  h1{
+    text-align: center;
   }

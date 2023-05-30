@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    clickSearch()
+    clickSearch();
     var dataRegistration=[];
 });
 
@@ -84,6 +84,7 @@ async function openRegistration(reference){
     
     var data = await getRegistration(reference)
     console.log(data);
+    $("#type").val(data.details.transType);
     $("#registrant").val(data.persons.registrant.firstName +" "+data.persons.registrant.lastName);
     $("#birthday").val(data.details.birthmonth +"/"+data.details.birthday +"/"+data.details.birthyear);
     $("#regDate").val(data.details.month +"/"+data.details.day +"/"+data.details.year)
@@ -95,9 +96,69 @@ async function openRegistration(reference){
     $("#officiant").val(data.persons.officiant.firstName +" "+data.persons.officiant.lastName);
 }
 
+function checkFilter(){
+    if($("#baptismFilter").prop('checked')){
+        if($("#confirmationFilter").prop('checked')){
+            populateRegistrations(3);
+        }else{
+            populateRegistrations(1);
+        }
+    }else{
+        if($("#confirmationFilter").prop('checked')){
+            populateRegistrations(2);
+        }else{
+            populateRegistrations(0);
+        }
+    }
+    
+}
+
+function populateRegistrations(mode){
+    console.log(mode);
+    $('.results>tbody').html("");
+    var typeFilter=[];
+    if(mode==3){
+        typeFilter=dataRegistration;
+    }else if (mode==2){
+        typeFilter=dataRegistration.filter(details=>
+            details.transType == 'Confirmation'
+        )
+    }else if (mode==1){
+        typeFilter=dataRegistration.filter(details=>
+            details.transType == 'Baptism'
+        )
+    }else if (mode==0){
+        
+    }
+    console.log(typeFilter)
+    typeFilter.forEach(function(record){
+        $('.results>tbody').append("<tr><td><a href='#' onclick='openRegistration("+record.regIndex+")'>View</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='printRegistration("+record.regIndex+")'>Print</a></td><td>"+record.lastName+","+record.firstName+"</td>"+
+        "<td>"+record.day+"-"+getMonth(record.month)+"-"+record.year+"</td>"+
+        "<td>"+record.birthday+"-"+getMonth(record.birthmonth)+"-"+record.birthyear+"</td></tr>");
+    })
+    $('#searchRegistration').quicksearch('.results tbody tr',{
+        'delay': 100,
+        'bind':'keyup keydown change input',
+        'onAfter': function(){
+            var txtstring=$('#searchRegistration').val();
+            $('#searchRegistration').val("");
+            $('#searchRegistration').val(txtstring);
+        }
+    });
+    markSearch();
+}
+
 function clickSearch(){
     $(".container").load("search.html");
+    try{
+        $("#viewRegistration").dialog("destroy");
+    }catch{
+
+    }
     waitForElement("viewRegistration", function(){
+        $("#confirmationFilter").checkboxradio();
+        $("#baptismFilter").checkboxradio();
+        
         $("#viewRegistration").dialog({
             autoOpen: false,
             show: {
@@ -114,7 +175,7 @@ function clickSearch(){
             collision:"none"
         });
         $("#viewRegistration").dialog("open");
-        var availableTags=[];
+        
         $.ajax({
             type:"GET",
             dataType:"json",
@@ -122,25 +183,9 @@ function clickSearch(){
             url:"/registrations",
         })
         .then(function(response) {
-            dataRegistration=response.data
-            response.data.forEach(function(record){
-                $('.results>tbody').append("<tr><td><a href='#' onclick='openRegistration("+record.regIndex+")'>View</a> <a href='#' onclick='printRegistration("+record.regIndex+")'>Print</a></td><td>"+record.lastName+","+record.firstName+"</td>"+
-                "<td>"+record.month+"/"+record.day+"/"+record.year+"</td>"+
-                "<td>"+record.birthmonth+"/"+record.birthday+"/"+record.birthyear+"</td></tr>");
-                availableTags.push(record.lastName+","+record.firstName);
-                console.log(availableTags);
-            })
+            dataRegistration=response.data;
+            checkFilter();
             
-            $('#searchRegistration').quicksearch('.results tbody tr',{
-                'delay': 100,
-                'bind':'keyup keydown change input',
-                'onAfter': function(){
-                    var txtstring=$('#searchRegistration').val();
-                    $('#searchRegistration').val("");
-                    $('#searchRegistration').val(txtstring);
-                }
-            });
-            console.log(availableTags);
             /*$("#searchRegistration").autocomplete({
                 source: availableTags,
                 select: function(event,ui){
@@ -150,9 +195,6 @@ function clickSearch(){
             });*/
         }); 
     });
-    
-    
-    
 }
 
 function searchRegistration(){
@@ -237,5 +279,28 @@ function markSearch(){
     $('.results>tbody').mark(searchtext);
     if($('#searchRegistration').val()==""){
         $('.results>tbody').unmark();
+    }
+}
+
+function clearSearch(){
+    $("#searchRegistration").val("");
+    $("#baptismFilter").prop('checked',true).checkboxradio("refresh");
+    $("#confirmationFilter").prop('checked',true).checkboxradio("refresh");
+    checkFilter();
+}
+function getMonth(month){
+    switch(month){
+        case 1: return 'JAN';
+        case 2: return 'FEB';
+        case 3: return 'MAR';
+        case 4: return 'APR';
+        case 5: return 'MAY';
+        case 6: return 'JUN';
+        case 7: return 'JUL';
+        case 8: return 'AUG';
+        case 9: return 'SEP';
+        case 10: return 'OCT';
+        case 11: return 'NOV';
+        case 12: return 'DEC';
     }
 }

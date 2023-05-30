@@ -1,11 +1,15 @@
 <br/>
 <fieldset>
     <legend>Search</legend>
+    <label for="baptismFilter">Baptism</label>
+    <input type="checkbox" name="baptismFilter" id="baptismFilter" onchange="checkFilter()" checked>
+    <label for="confirmationFilter">Confirmation</label>
+    <input type="checkbox" name="confirmationFilter" id="confirmationFilter" onchange="checkFilter()" checked><br/>
     <label>
         <input type="text" id="searchRegistration" oninput="markSearch()" onchange="markSearch()">
         <span class="floating-label">Search</span>
     </label>
-    <button onclick="searchRegistration()">Search</button>
+    <button onclick="clearSearch()">Clear</button>
 </fieldset>
 <fieldset>
     <legend>Results</legend>
@@ -23,7 +27,11 @@
 
 <div id="viewRegistration" title="Registration Details" style="display:none">
     <div>
-        
+        <label>
+            <input type="text" class="inputText" id="type" placeholder=" " disabled/>
+            <span class="floating-label">Type</span>
+        </label>
+        <br/>
         <label>
             <input type="text" class="inputText" id="registrant" placeholder=" " disabled/>
             <span class="floating-label">Registrant</span>
