@@ -149,3 +149,15 @@ label {
   h1{
     text-align: center;
   }
+
+  .editButton{
+    width:80px;
+    height:30px;
+    margin-left: 0px
+  }
+
+  select.inputText.edit{
+    padding:10px;
+    width:219px;
+    border-width: 2px;
+  }

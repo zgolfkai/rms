@@ -49,6 +49,18 @@ router.post('/register',async (req,res) => {
     });
 });
 
+router.post('/update/:regIndex',async (req,res) => {
+    data=req.body;
+    var result=await updateRegistration(req.body,req.params.regIndex);
+    
+    res.json({
+        ok: true,
+        data: {
+          message:result
+        }
+    });
+});
+
 router.get('/registrations',(req,res) => {
     connectDB(db);
     var sql="SELECT * FROM baptismal INNER JOIN dates on dates.regIndex = baptismal.linkIndex WHERE baptismal.userType='Registrant' ORDER BY baptismal.lastName ASC"
@@ -128,6 +140,81 @@ async function duplicateCheck(data){
             
         });
     })
+}
+
+async function updateRegistration(data,regIndex){
+    return new Promise(async (resolve) => {
+        connectDB(db);
+        console.log(data);
+        sql="UPDATE dates SET day=?,month=?,year=?,birthday=?,birthmonth=?,birthyear=?,transType=?,book=?,page=?,line=? WHERE regIndex = ?"
+        insertData=[
+            data.details.day,
+            data.details.month,
+            data.details.year,
+            data.details.birthday,
+            data.details.birthmonth,
+            data.details.birthyear,
+            data.details.type,
+            data.details.book,
+            data.details.page,
+            data.details.line,
+            regIndex
+        ]
+        db.run(sql,insertData, function(err){
+            if(err) {
+                console.log(err.message);
+            }else{
+                sql="UPDATE baptismal SET firstName=?,lastName=?,userType=?,linkIndex=? WHERE linkIndex=? AND userType=?";
+                insertData=[data.registrant.firstname,data.registrant.lastname,'Registrant',regIndex,regIndex,'Registrant']
+                db.run(sql,insertData, function(err){
+                    if(err) {
+                        console.log(err.message);
+                    }else{
+                        insertData=[data.father.firstname,data.father.lastname,'Father',regIndex,regIndex,'Father']
+                        db.run(sql,insertData, function(err){
+                            if(err) {
+                                console.log(err.message);
+                            }else{
+                                insertData=[data.mother.firstname,data.mother.lastname,'Mother',regIndex,regIndex,'Mother']
+                                db.run(sql,insertData, function(err){
+                                    if(err) {
+                                        console.log(err.message);
+                                    }else{
+                                        insertData=[data.sponsor1.firstname,data.sponsor1.lastname,'Godfather',regIndex,regIndex,'Godfather']
+                                        db.run(sql,insertData, function(err){
+                                            if(err) {
+                                                console.log(err.message);
+                                            }else{
+                                                insertData=[data.sponsor2.firstname,data.sponsor2.lastname,'Godmother',regIndex,regIndex,'Godmother']
+                                                db.run(sql,insertData, function(err){
+                                                    if(err) {
+                                                        console.log(err.message);
+                                                    }else{
+                                                        insertData=[data.officiant.firstname,data.officiant.lastname,'Officiant',regIndex,regIndex,'Officiant']
+                                                        db.run(sql,insertData, function(err){
+                                                            if(err) {
+                                                                console.log(err.message);
+                                                            }
+                                                        });
+                                                        closeDB(db);
+                                                        resolve("User updated.")
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                                
+                                
+                                
+                            }
+                        });
+                        
+                    }
+                });
+            }
+        });
+    });
 }
 
 async function addRegistration(data){

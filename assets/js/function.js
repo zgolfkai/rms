@@ -124,22 +124,37 @@ function printRegistration(reference){
 }
 
 async function openRegistration(reference){
-    
+    $("#edit").show();
     var data = await getRegistration(reference)
     console.log(data);
+    waitForElement("birthday", function(){
+        $("#birthday").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:c+00"
+        });
+    });
+    waitForElement("regDate", function(){
+        $("#regDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:c+00"
+        });
+    });
     $("#type").val(data.details.transType);
-    $("#registrant").val(data.persons.registrant.firstName +" "+data.persons.registrant.lastName);
+    $("#registrant").val(data.persons.registrant.lastName +", "+data.persons.registrant.firstName);
     $("#birthday").val(data.details.birthmonth +"/"+data.details.birthday +"/"+data.details.birthyear);
     $("#regDate").val(data.details.month +"/"+data.details.day +"/"+data.details.year)
-    $("#registrant").val(data.persons.registrant.firstName +" "+data.persons.registrant.lastName);
-    $("#father").val(data.persons.father.firstName +" "+data.persons.father.lastName);
-    $("#mother").val(data.persons.mother.firstName +" "+data.persons.mother.lastName);
-    $("#sponsor1").val(data.persons.godfather.firstName +" "+data.persons.godfather.lastName);
-    $("#sponsor2").val(data.persons.godmother.firstName +" "+data.persons.godmother.lastName);
-    $("#officiant").val(data.persons.officiant.firstName +" "+data.persons.officiant.lastName);
+    $("#father").val(data.persons.father.lastName +", "+data.persons.father.firstName);
+    $("#mother").val(data.persons.mother.lastName +", "+data.persons.mother.firstName);
+    $("#sponsor1").val(data.persons.godfather.lastName +", "+data.persons.godfather.firstName);
+    $("#sponsor2").val(data.persons.godmother.lastName +", "+data.persons.godmother.firstName);
+    $("#officiant").val(data.persons.officiant.lastName +", "+data.persons.officiant.firstName);
     $("#book").val(data.details.book);
     $("#page").val(data.details.page);
     $("#line").val(data.details.line);
+    $("#confirmEdit").attr('onclick','confirmEditRegistration('+reference+')');
+
 }
 
 function checkFilter(){
@@ -196,6 +211,15 @@ function populateRegistrations(mode){
 
 function clickSearch(){
     $(".container").load("search.html");
+    waitForElement("edit", function(){
+        $("#edit").hide();
+    });
+    waitForElement("cancelEdit", function(){
+        $("#cancelEdit").hide();
+    });
+    waitForElement("confirmEdit", function(){
+        $("#confirmEdit").hide();
+    });
     try{
         $("#viewRegistration").dialog("destroy");
     }catch{
@@ -267,9 +291,9 @@ function addRegistration(){
             day:dateValues[1],
             month:dateValues[0],
             year:dateValues[2],
-            birthday:dateValues[1],
-            birthmonth:dateValues[0],
-            birthyear:dateValues[2],
+            birthday:birthdateValues[1],
+            birthmonth:birthdateValues[0],
+            birthyear:birthdateValues[2],
             type:$("#typeRegistration").val(),
             book:$("#bookNum").val(),
             page:$("#pageNum").val(),
@@ -354,4 +378,88 @@ function getMonth(month){
         case 11: return 'NOV';
         case 12: return 'DEC';
     }
+}
+
+function editRegistration(){
+    $("#edit").hide();
+    $("#cancelEdit").show();
+    $("#confirmEdit").show();
+    $(".inputText.edit").attr("disabled",false);
+    $(".inputText.edit").css("border","2px solid blue");
+}
+
+function cancelEditRegistration(){
+    $(".inputText.edit").attr("disabled",true);
+    $(".inputText.edit").css("border","2px solid rgba(118, 118, 118, 0.3)");
+    $("#edit").show();true
+    $("#cancelEdit").hide();
+    $("#confirmEdit").hide();
+
+}
+
+function confirmEditRegistration(reference){
+    var dateValues=$("#regDate").val().split("/");
+    var birthdateValues=$("#birthday").val().split("/");
+    var data={
+        details:{
+            day:dateValues[1],
+            month:dateValues[0],
+            year:dateValues[2],
+            birthday:birthdateValues[1],
+            birthmonth:birthdateValues[0],
+            birthyear:birthdateValues[2],
+            type:$("#type").val(),
+            book:$("#book").val(),
+            page:$("#page").val(),
+            line:$("#line").val(),
+        },
+        registrant:{
+            firstname:$("#registrant").val().split(",")[1].trim(),
+            lastname:$("#registrant").val().split(",")[0].trim()
+        },
+        father:{
+            firstname:$("#father").val().split(",")[1].trim(),
+            lastname:$("#father").val().split(",")[0].trim()
+        },
+        mother:{
+            firstname:$("#mother").val().split(",")[1].trim(),
+            lastname:$("#mother").val().split(",")[0].trim()
+        },
+        sponsor1:{
+            firstname:$("#sponsor1").val().split(",")[1].trim(),
+            lastname:$("#sponsor1").val().split(",")[0].trim()
+        },
+        sponsor2:{
+            firstname:$("#sponsor2").val().split(",")[1].trim(),
+            lastname:$("#sponsor2").val().split(",")[0].trim()
+        },
+        officiant:{
+            firstname:$("#officiant").val().split(",")[1].trim(),
+            lastname:$("#officiant").val().split(",")[0].trim()
+        }
+    }
+    console.log(data);
+
+    $.ajax({
+        type:"POST",
+        dataType:"json",
+        contentType: "application/json",
+        data:JSON.stringify(data),
+        url:"/update/"+reference,
+    })
+    .then(function(response) {
+        console.log(response)
+        if (response.ok) {
+            if(response.data.message=='Error.')
+                alert("User updating failed.")
+            else{
+                alert("User details updated.");
+                $("#edit").show();true
+                $("#cancelEdit").hide();
+                $("#confirmEdit").hide();
+                $(".inputText.edit").attr("disabled",true);
+                $(".inputText.edit").css("border","2px solid rgba(118, 118, 118, 0.3)");
+            }
+        }
+    }); 
 }

@@ -27,54 +27,63 @@
 
 <div id="viewRegistration" title="Registration Details" style="display:none">
     <div>
+        <button class="editButton" id="edit" onclick="editRegistration()">Edit</button>
+        <button class="editButton" id="confirmEdit" onclick="confirmEditRegistration()">Confirm</button>
+        <button class="editButton" id="cancelEdit" onclick="cancelEditRegistration()">Cancel</button>
+    </div>
+    <div>
         <label>
-            <input type="text" class="inputText" id="type" placeholder=" " disabled/>
+            <select class="inputText edit" id="type" placeholder=" " disabled>
+                <option></option>
+                <option value="Baptism">Baptism</option>
+                <option value="Confirmation">Confirmation</option>
+            </select>
             <span class="floating-label">Type</span>
         </label>
         <br/>
         <label>
-            <input type="text" class="inputText" id="registrant" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="registrant" placeholder=" " disabled/>
             <span class="floating-label">Registrant</span>
         </label>
         <br/>
         <label>
-            <input type="text" class="inputText" id="birthday" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="birthday" placeholder=" " disabled/>
             <span class="floating-label">Birthday</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="regDate" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="regDate" placeholder=" " disabled/>
             <span class="floating-label">Registration Date</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="father" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="father" placeholder=" " disabled/>
             <span class="floating-label">Father</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="mother" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="mother" placeholder=" " disabled/>
             <span class="floating-label">Mother</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="sponsor1" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="sponsor1" placeholder=" " disabled/>
             <span class="floating-label">Godfather</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="sponsor2" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="sponsor2" placeholder=" " disabled/>
             <span class="floating-label">Godmother</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="officiant" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="officiant" placeholder=" " disabled/>
             <span class="floating-label">Minister</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="book" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="book" placeholder=" " disabled/>
             <span class="floating-label">Book Number</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="page" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="page" placeholder=" " disabled/>
             <span class="floating-label">Page Number</span>
         </label>
         <label>
-            <input type="text" class="inputText" id="line" placeholder=" " disabled/>
+            <input type="text" class="inputText edit" id="line" placeholder=" " disabled/>
             <span class="floating-label">Line Number</span>
         </label>
     </div>
