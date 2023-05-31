@@ -140,7 +140,7 @@ async function addRegistration(data){
             var index=0;
 
             connectDB(db);
-            sql="INSERT INTO dates(day,month,year,birthday,birthmonth,birthyear,transType) VALUES (?,?,?,?,?,?,?)";
+            sql="INSERT INTO dates(day,month,year,birthday,birthmonth,birthyear,transType,book,page,line) VALUES (?,?,?,?,?,?,?,?,?,?)";
             insertData=[
                 data.details.day,
                 data.details.month,
@@ -148,7 +148,10 @@ async function addRegistration(data){
                 data.details.birthday,
                 data.details.birthmonth,
                 data.details.birthyear,
-                data.details.type
+                data.details.type,
+                data.details.book,
+                data.details.page,
+                data.details.line,
             ]
             db.run(sql,insertData, function(err){
                 if(err) {
@@ -168,7 +171,7 @@ async function addRegistration(data){
                             console.log(err.message);
                         }
                     });
-                    insertData=[data.father.firstname,data.father.lastname,'Mother',index]
+                    insertData=[data.mother.firstname,data.mother.lastname,'Mother',index]
                     db.run(sql,insertData, function(err){
                         if(err) {
                             console.log(err.message);
@@ -205,8 +208,8 @@ async function addRegistration(data){
 function getDir() {
     
     if (process.pkg) {
-    //    return path.resolve(process.execPath + "/..");
-    //} else {
+        return path.resolve(process.execPath + "/..");
+    } else {
         return path.join(require.main ? require.main.path : process.cwd());
     }
 }

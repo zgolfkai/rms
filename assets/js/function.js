@@ -7,6 +7,7 @@ $(document).ready(function() {
 function resetInput(){
     console.log($("#dateRegistration").val());
     $(".inputText").val("");
+    $(".inputNum").val("");
 }
 
 function waitForElement(id, callback){
@@ -78,14 +79,48 @@ async function getRegistration(reference){
         });
     });
 }
-async function printRegistration(reference){
-    var printWindows = window.open("print.html","Print Registration","_blank,height=1123,width=794,scrollbars=no");
-    await getRegistration(reference).then(function(data){
-        console.log(data);
-        setTimeout(function(){
-            printWindows.postMessage(data, '*');
-        },1000)
+function printRegistration(reference){
+    $("#additionalDetails").dialog({
+        autoOpen: false,
+        show: {
+            effect: "fade",
+            duration: 500
+        },
+        hide: {
+            effect: "fade",
+            duration: 500
+        },
+        modal:true,
+        collision:"none",
+        buttons:{
+            "Ok": async function() {
+                var printWindows = window.open("print.html","Print Registration","_blank,height=1123,width=794,scrollbars=no");
+                await getRegistration(reference).then(function(data){
+                    console.log(data);
+                    data.details.dateIssued=$("#dateIssue").val();
+                    data.details.purpose=$("#purpose").val();
+                    data.details.priest=$("#priest").val();
+                    data.details.title=$("#title").val();
+                    setTimeout(function(){
+                        printWindows.postMessage(data, '*');
+                    },1000)
+                });
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $(this).dialog("close");
+            }
+          }
     });
+    waitForElement("dateIssue", function(){
+        $("#dateIssue").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:c+00"
+        });
+    });
+    $("#additionalDetails").dialog("open");
+    
 }
 
 async function openRegistration(reference){
@@ -102,6 +137,9 @@ async function openRegistration(reference){
     $("#sponsor1").val(data.persons.godfather.firstName +" "+data.persons.godfather.lastName);
     $("#sponsor2").val(data.persons.godmother.firstName +" "+data.persons.godmother.lastName);
     $("#officiant").val(data.persons.officiant.firstName +" "+data.persons.officiant.lastName);
+    $("#book").val(data.details.book);
+    $("#page").val(data.details.page);
+    $("#line").val(data.details.line);
 }
 
 function checkFilter(){
@@ -233,6 +271,9 @@ function addRegistration(){
             birthmonth:dateValues[0],
             birthyear:dateValues[2],
             type:$("#typeRegistration").val(),
+            book:$("#bookNum").val(),
+            page:$("#pageNum").val(),
+            line:$("#lineNum").val(),
         },
         registrant:{
             firstname:$("#regFirstName").val(),
@@ -274,8 +315,10 @@ function addRegistration(){
         if (response.ok) {
             if(response.data.message=='User found.')
                 alert("User already in database.")
-            else
-                alert("User entered in database.")
+            else{
+                alert("User entered in database.");
+                resetInput();
+            }
         }
     }); 
 

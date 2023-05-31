@@ -18,6 +18,13 @@ function populate(data){
     $("#godfather").html(": "+data.persons.godfather.firstName + " " + data.persons.godfather.lastName);
     $("#godmother").html(": "+data.persons.godmother.firstName + " " + data.persons.godmother.lastName);
     $("#officiant").html(": "+data.persons.officiant.firstName + " " + data.persons.officiant.lastName);
+    $("#book").html(": "+data.details.book);
+    $("#page").html(": "+data.details.page);
+    $("#line").html(": "+data.details.line);
+    $("#dateIssue").html(": "+data.details.dateIssued);
+    $("#purpose").html(": "+data.details.purpose);
+    $("#priest").html(data.details.priest);
+    $("#title").html(data.details.title);
     var element = document.getElementById('bodyTag');
     var opt = {
     margin:       0,

@@ -98,6 +98,11 @@ label {
     padding:10px;
     width: 125px;
   }
+
+  .inputNum{
+    padding:10px;
+    width: 120px;
+  }
   
   select:focus + span, select:not(:placeholder-shown) + span, input:focus + span, input:not(:placeholder-shown) + span {
     opacity:1;
@@ -129,10 +134,16 @@ label {
     width:100px;
   }
 
-  .ui-dialog{
+  div[aria-describedby="viewRegistration"]{
     position:absolute!important;
     top:90px!important;
     left:1px!important;
+  }
+
+  div[aria-describedby="additionalDetails"]{
+    position:absolute!important;
+    top:90px!important;
+    text-align: center;
   }
 
   h1{
