@@ -91,7 +91,7 @@ router.get('/registration/:regIndex',(req,res) => {
 });
 
 function connectDB(){
-    db = new sqlite3.Database(process.cwd()+'./parish.db', (err) => {
+    db = new sqlite3.Database(getDir()+'/parish.db', (err) => {
         if (err) {
         console.error(err.message);
         }else{
@@ -206,7 +206,7 @@ async function addRegistration(data){
 }
 
 function getDir() {
-    
+    return __dirname;
     if (process.pkg) {
         return path.resolve(process.execPath + "/..");
     } else {

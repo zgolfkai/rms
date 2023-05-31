@@ -94,7 +94,7 @@ function printRegistration(reference){
         collision:"none",
         buttons:{
             "Ok": async function() {
-                var printWindows = window.open("print.html","Print Registration","_blank,height=1123,width=794,scrollbars=no");
+                var printWindows = window.open("print.html","Print Registration","_blank,height=1034,width=799,scrollbars=no");
                 await getRegistration(reference).then(function(data){
                     console.log(data);
                     data.details.dateIssued=$("#dateIssue").val();
