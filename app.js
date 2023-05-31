@@ -1,7 +1,12 @@
+const path = require('path');
+const chromeLauncher = require('chrome-launcher');
+
+
 var express  =  require('express');
 const router  =  express.Router();
 var app  =  express();
 app.set('view engine', 'pug');
+
 const sqlite3 = require('sqlite3').verbose();
 var db;
 
@@ -12,26 +17,28 @@ var http = require('http').createServer(app);
 
 http.listen(port, function(){
     console.log('server on port '+port);
+
+      chromeLauncher.launch({
+        startingUrl: 'http://localhost:3000',
+      })
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', router);
-app.use('/assets',express.static(__dirname + '/assets'));
-app.use('/add.html',express.static(__dirname + '/add.html'));
-app.use('/search.html',express.static(__dirname + '/search.html'));
-app.use('/print.html',express.static(__dirname + '/print.html'));
-app.use('/assets/img/bitmap.png',express.static(__dirname + '/assets/img/bitmap.png'));
 
+app.use('/assets',express.static(getDir()+ '/assets'));
+app.use('/add.html',express.static(getDir()+ '/add.html'));
+app.use('/search.html',express.static(getDir()+ '/search.html'));
+app.use('/print.html',express.static(getDir()+ '/print.html'));
+app.use('/assets/img/bitmap.png',express.static(getDir()+'/assets/img/bitmap.png'));
+app.set('views',getDir()+ '/views');
 router.get('/', (req,res) => { 
-    res.render('index',{basedir: __dirname});
+    res.render('index',{basedir: getDir()});
 })
 
 router.post('/register',async (req,res) => {
     data=req.body;
-    console.log('1');
-    console.log(req.body);
-
     var result=await addRegistration(req.body);
     
     res.json({
@@ -49,8 +56,6 @@ router.get('/registrations',(req,res) => {
         if (err) {
             throw err;
         }else{
-            console.log(row);
-            
             res.json({
                 ok: true,
                 data:row
@@ -72,7 +77,6 @@ router.get('/registration/:regIndex',(req,res) => {
                 if (err) {
                     throw err;
                 }else{
-                    console.log(list);
                     res.json({
                         ok: true,
                         data:{
@@ -87,11 +91,12 @@ router.get('/registration/:regIndex',(req,res) => {
 });
 
 function connectDB(){
-    db = new sqlite3.Database('./db/parish.db', (err) => {
+    db = new sqlite3.Database(process.cwd()+'./parish.db', (err) => {
         if (err) {
         console.error(err.message);
+        }else{
+            console.log('Connected to the parish database.');
         }
-        console.log('Connected to the parish database.');
     });
 }
 
@@ -99,8 +104,9 @@ function closeDB(db){
     db.close((err) => {
         if (err) {
         console.error(err.message);
-        }
+        }else{
         console.log('Closing the database connection.');
+        }
     });
 }
 
@@ -127,7 +133,6 @@ async function duplicateCheck(data){
 async function addRegistration(data){
     return new Promise(async (resolve) => {
         var test=await duplicateCheck(data);
-        console.log(test);
         if(test==true){
             console.log("user found");
             resolve("User found.");
@@ -197,3 +202,11 @@ async function addRegistration(data){
     });
 }
 
+function getDir() {
+    
+    if (process.pkg) {
+    //    return path.resolve(process.execPath + "/..");
+    //} else {
+        return path.join(require.main ? require.main.path : process.cwd());
+    }
+}

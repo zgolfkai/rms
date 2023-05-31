@@ -116,16 +116,17 @@ label {
     text-decoration-line: none;
   }
 
-  .menu>a:visited, .menu>a:link, .menu>a:active, .menu>a:hover{
+  .menu>button{
     color: black;
     font-style:normal;
     text-decoration-line: none;
     margin: 0;
     margin-left:10px;
-    line-height: 31px;
+    height:31px;
     background-color: coral;
     padding: 5px 5px 5px 5px;
     border:1px solid black;
+    width:100px;
   }
 
   .ui-dialog{

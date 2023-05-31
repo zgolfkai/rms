@@ -26,10 +26,18 @@ async function clickAdd(){
     }
     $(".container").load("add.html")
     waitForElement("dateRegistration", function(){
-        $("#dateRegistration").datepicker();
+        $("#dateRegistration").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:c+00"
+        });
     });
     waitForElement("dateBirthday", function(){
-        $("#dateBirthday").datepicker();
+        $("#dateBirthday").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1920:c+00"
+        });
     });
 }
 
@@ -162,12 +170,12 @@ function clickSearch(){
         $("#viewRegistration").dialog({
             autoOpen: false,
             show: {
-                effect: "blind",
-                duration: 1000
+                effect: "fade",
+                duration: 500
             },
             hide: {
-                effect: "explode",
-                duration: 1000
+                effect: "fade",
+                duration: 500
             },
             maxWidth:300,
             width:300,
