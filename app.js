@@ -18,21 +18,21 @@ var http = require('http').createServer(app);
 http.listen(port, function(){
     console.log('server on port '+port);
 
-      chromeLauncher.launch({
-        startingUrl: 'http://localhost:3000',
-      })
+    //chromeLauncher.launch({
+    //    startingUrl: 'http://localhost:3000',
+    //})
 });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', router);
 
-app.use('/assets',express.static(getDir()+ '/assets'));
-app.use('/add.html',express.static(getDir()+ '/add.html'));
-app.use('/search.html',express.static(getDir()+ '/search.html'));
-app.use('/print.html',express.static(getDir()+ '/print.html'));
-app.use('/assets/img/bitmap.png',express.static(getDir()+'/assets/img/bitmap.png'));
-app.set('views',getDir()+ '/views');
+app.use('/assets',express.static(getDir()+'/assets'));
+app.use('/add.html',express.static(getDir()+'/add.html'));
+app.use('/search.html',express.static(getDir()+'/search.html'));
+app.use('/print.html',express.static(getDir()+'/print.html'));
+app.use('/assets/img/bitmap.png',express.static('getDir()+/assets/img/bitmap.png'));
+app.set('views',getDir()+'/views');
 router.get('/', (req,res) => { 
     res.render('index',{basedir: getDir()});
 })
@@ -91,7 +91,7 @@ router.get('/registration/:regIndex',(req,res) => {
 });
 
 function connectDB(){
-    db = new sqlite3.Database(getDir()+'/parish.db', (err) => {
+    db = new sqlite3.Database('./parish.db', (err) => {
         if (err) {
         console.error(err.message);
         }else{

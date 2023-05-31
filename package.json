@@ -14,8 +14,8 @@
   },
   "pkg": {
     "assets": [
-      "views/*.*",
-      "assets/**/*.*",
+      "views/**/*",
+      "assets/**/*",
       "*.html",
       "node_modules/**/*"
     ],
